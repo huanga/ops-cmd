@@ -1,0 +1,26 @@
+---
+- hosts: all
+  tasks:
+  - name: Set cluster name
+    lineinfile: 'dest=/etc/elasticsearch/elasticsearch.yml state=present line="cluster.name: cac-es-terrandin"'
+
+  - name: Set multicast group
+    lineinfile: 'dest=/etc/elasticsearch/elasticsearch.yml state=present line="discovery.zen.ping.multicast.group: 224.2.24.224"'
+  
+  - name: Set multicast port
+    lineinfile: 'dest=/etc/elasticsearch/elasticsearch.yml state=present line="discovery.zen.ping.multicast.port: 54328"'
+
+  - name: Clear bad master nodes config
+    lineinfile: 'dest=/etc/elasticsearch/elasticsearch.yml state=absent line="discovery.zen.ping.unicast.hosts: [\"168.235.154.35\", \"168.235.152.58\", \"168.235.154.35\"]"'
+
+  - name: Set master nodes
+    lineinfile: 'dest=/etc/elasticsearch/elasticsearch.yml state=present line="discovery.zen.ping.unicast.hosts: [\"168.235.152.58\", \"168.235.153.165\", \"168.235.154.35\"]"'
+
+  - name: Set replicas
+    lineinfile: 'dest=/etc/elasticsearch/elasticsearch.yml state=present line="index.number_of_replicas: 2"'
+
+  - name: Set shards
+    lineinfile: 'dest=/etc/elasticsearch/elasticsearch.yml state=present line="index.number_of_shards: 8"'
+
+  - name: Set mlock
+    lineinfile: 'dest=/etc/elasticsearch/elasticsearch.yml state=present line="bootstrap.mlockall: true"'
