@@ -1,0 +1,20 @@
+--- 
+- hosts: all
+  tasks:
+  - name: ensure required packages are installed for Java 8
+    apt: name=software-properties-common state=latest update_cache=yes
+ 
+  - name: Add Java repository to sources
+    action: apt_repository repo='ppa:webupd8team/java'
+ 
+  - name: Autoaccept license for Java
+    debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
+ 
+  - name: Update APT package cache
+    action: apt update_cache=yes
+ 
+  - name: Install Java 8
+    action: apt pkg=oracle-java8-installer state=latest install_recommends=yes
+   
+  - name: Set Java 8 Env
+    action: apt pkg=oracle-java8-set-default state=latest install_recommends=yes
