@@ -19,8 +19,11 @@
   - name: Set replicas
     lineinfile: 'dest=/etc/elasticsearch/elasticsearch.yml state=present line="index.number_of_replicas: 2"'
 
+  - name: Clear old configuration on number of shards shards
+    lineinfile: 'dest=/etc/elasticsearch/elasticsearch.yml state=absent line="index.number_of_shards: 8"'
+
   - name: Set shards
-    lineinfile: 'dest=/etc/elasticsearch/elasticsearch.yml state=present line="index.number_of_shards: 8"'
+    lineinfile: 'dest=/etc/elasticsearch/elasticsearch.yml state=present line="index.number_of_shards: 4"'
 
   - name: Set mlock
     lineinfile: 'dest=/etc/elasticsearch/elasticsearch.yml state=present line="bootstrap.mlockall: true"'
